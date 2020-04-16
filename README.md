@@ -23,7 +23,7 @@ There are 2 main console commands that can be used in this program.
 
     The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name):
 
-    main.py -L -i <inputFile> -o <outputFile.csv>
+    main.py -L -i [inputFile] -o [outputFile.csv]
 
     i.e.
 
@@ -33,7 +33,7 @@ There are 2 main console commands that can be used in this program.
 
     The following command is used to print a previously saved block model in a .csv file:
 
-    main.py -P -i <blockModel.csv>
+    main.py -P -i [blockModel.csv]
 
     i.e.
 
