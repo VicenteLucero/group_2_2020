@@ -1,7 +1,6 @@
 import os
 import csv
 import sys, getopt
-from operator import itemgetter
 
 def mainLoad(argv):
    inputfile = ''

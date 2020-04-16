@@ -3,7 +3,6 @@ from main import LoadBlockModel
 import os
 import csv
 import sys, getopt
-from operator import itemgetter
 
 class TestLoadBlockModel(unittest.TestCase):
     def test_file(self):
