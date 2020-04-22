@@ -13,4 +13,4 @@ class TestBlock(unittest.TestCase):
         self.assertEqual(Block(["id", "x", "y", "z", "tons"], [1, 2, 3, 4, [1, 2, 3]]).getValue("tons"), [1, 2, 3])
 
     def test_get_value_when_column_not_exist_return_message(self):
-        self.assertEqual(Block(["id", "x", "y", "z", "tons"], [1, 2, 3, 4, [1, 2, 3]]).getValue("ore tons"), ["Column does not exist"])
+        self.assertEqual(Block(["id", "x", "y", "z", "tons"], [1, 2, 3, 4, [1, 2, 3]]).getValue("ore tons"), "Column does not exist")
