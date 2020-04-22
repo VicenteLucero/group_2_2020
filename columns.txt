@@ -1,1 +1,1 @@
-ID X Y Z TONN BLOCK_VALUE DESTINATION CU_% PROCESS_PROFIT
+id x y z blockvalue ton destination Au(oz/ton)
