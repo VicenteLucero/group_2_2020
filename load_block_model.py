@@ -37,7 +37,10 @@ def printModelArguments(argv):
     
     blockModel = CreateBlockModel(inputfile)
     PrintBlockModel(blockModel)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7bbf4be0bcb31f786ecb28dfa44fff02fa46bb38
 
 def numberOfBlocksArguments(argv):
     block_model_name = ""
@@ -52,7 +55,8 @@ def numberOfBlocksArguments(argv):
         if opt in ("-b", "--bname"):
             block_model_name = arg
 
-    print(block_model_name)
+    block_model = CreateBlockModel(block_model_name)
+    printNumberOfBlocks(block_model)
 
 def massInKilogramsArgument(argv):
     block_model_name = ""
@@ -76,7 +80,8 @@ def massInKilogramsArgument(argv):
         elif opt in ("-z", "--zcoord"):
             z = int(arg)
 
-    print(block_model_name, x, y, z)
+    block_model = CreateBlockModel(block_model_name)
+    printMassInKilograms(block_model, x, y, z)
 
 def gradeInPercentageArguments(argv):
     block_model_name = ""
@@ -219,3 +224,23 @@ def GetGradeOfMineral(block_model, block_model_name, X, Y, Z, mineral_name):
         print(block)
     else:
         print(block.getMineralGrade(mineral_name, block_model_name))
+
+def printNumberOfBlocks(block_model):
+    number_of_blocks = len(block_model.blocks)
+
+    print(number_of_blocks)
+
+def printMassInKilograms(block_model, x, y, z):
+    block = block_model.getBlock(x, y, z)
+    if type(block) is str:
+        print(block)
+        return
+    possible_names = ["<tonn>", "ton", "tonns", "tons", "rock_tonnes"]
+    
+    for name in possible_names:
+        if name in block_model.columns:
+            mass = float(block.getValue(name))*1000
+            print(str(mass), "kg")
+            return
+    
+
