@@ -73,8 +73,8 @@ There are 2 main console commands that can be used in this program.
 
     The following command is used to print the value of any attribute in a previously stored block model in a specific coordinate:
 
-    main.py -A -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -n [attributeName]
+    main.py -A -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -n "[attributeName]"
 
     i.e.
 
-    main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n destination
+    main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n "destination"
