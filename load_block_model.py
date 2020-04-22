@@ -91,7 +91,7 @@ def gradeInPercentageArguments(argv):
     try:
         opts, args = getopt.getopt(argv, "n:b:x:y:z:m:", ["nnams=", "bname=", "xcoord=", "ycoord=", "zcoord=", "mname="])
     except getopt.GetoptError:
-        print('main.py -G -n <model_name> -b <block_model_name.csv> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
+        print('main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
         sys.exit(2)
 
     for opt, arg in opts:
