@@ -21,13 +21,13 @@ There are 2 main console commands that can be used in this program.
 
 1. Load Block Model:
 
-    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name):
+    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name, also columns.txt must be a one line file with the column_names of the model separated by commas):
 
-    main.py -L -i [inputFile] -o [outputFile.csv]
+    main.py -L -i [inputFile] -c [columnsFile.txt] -o [outputFile.csv]
 
     i.e.
 
-    main.py -L -i kd.blocks -o kd_blocks.csv
+    main.py -L -i kd.blocks -c columns.txt -o kd_blocks.csv
 
 2. Print a previosly saved block model:
 
