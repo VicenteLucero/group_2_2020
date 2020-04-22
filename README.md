@@ -29,12 +29,78 @@ There are 2 main console commands that can be used in this program.
 
     main.py -L -i kd.blocks -c columns.txt -o kd_blocks.csv
 
-2. Print a previosly saved block model:
+2. Print a previously saved block model:
 
     The following command is used to print a previously saved block model in a .csv file:
 
-    main.py -P -i [blockModel.csv]
+    main.py -P -i [blockModelFile.csv]
 
     i.e.
 
     main.py -P -i kd_blocks.csv
+
+2. Print number of blocks in a previously saved model:
+
+    The following command is used to print the number of blocks in a block model that was prevoiusly loaded:
+
+    main.py -N -b [blockModelFile.csv]
+
+    i.e.
+
+    main.py -N -b kd_blocks.csv
+
+3. Print mass in Kilograms of one block in a stored block model:
+
+    The following command is used to print the mass in kilograms of a block stored in a block model previously loaded in a specific coordinate:
+
+    main.py -M -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate]
+
+    i.e.
+
+    main.py -M -b kd_blocks.csv -x 11 -y 0 -z 18
+
+4. Print grade in percentage for each mineral of one block in a stored block model:
+
+    The following command is used to print the grade in percentage for a mineral in a block of a previously loaded block model in a specific coordinate:
+
+    main.py -G -n[blockModelName] -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -m [mineralName]
+
+    i.e.
+
+    main.py -G -n kd -n kd_blocks.csv -x 11 -y 0 -z 18 -m copper
+
+5. Print value of attribute of one block in a stored block model:
+
+    The following command is used to print the value of any attribute in a previously stored block model in a specific coordinate:
+
+    main.py -A -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -n "[attributeName]"
+
+    i.e.
+
+    main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n "destination"
+
+The mineral names for each model are (file column name -> commandline parameter)
+
+1. newman1: 
+    - grade -> mineral
+
+2. zuck:
+    - ore_tonnes -> ore
+
+3. kd:
+    - Cu % -> copper
+
+4. p4hd:
+    - Au (oz/ton) -> gold
+    - Ag (oz/ton) -> silver
+    - Cu % -> copper
+
+5. marvin:
+    - au [ppm] -> gold
+    - Cu % -> copper
+
+6. w23:
+    - Au -> gold
+
+7. mclaughlin:
+    - Au (oz/ton) -> gold
