@@ -34,8 +34,8 @@ def mainPrint(argv):
       if opt in ("-i", "--ifile"):
          inputfile = arg
          
-   blockModel = CreateBlockModel(inputfile)
-   PrintBlockModel(blockModel)
+   block_model = CreateBlockModel(inputfile)
+   PrintBlockModel(block_model)
 
 def CreateBlockModel(input_name):
     blocks = []
@@ -74,15 +74,15 @@ def LoadBlockModel(input_name, columns_name, output_name):
                     csv_line[i] = float(csv_line[i])
             wr.writerow(csv_line)
 
-def PrintBlockModel(blockModel):
+def PrintBlockModel(block_model):
 
     elements = []
     max_element_length = []
 
-    elements.append(blockModel.columns)
+    elements.append(block_model.columns)
 
-    for x in range(len(blockModel.blocks)):
-        elements.append(blockModel.blocks[x].values)
+    for x in range(len(block_model.blocks)):
+        elements.append(block_model.blocks[x].values)
 
     for n in range(len(elements[0])):
         max_element_length.append(0)
@@ -102,3 +102,9 @@ def PrintBlockModel(blockModel):
             values += str(element) + (" "*int(max_element_length[j]-len(str(element)))) + '|'
         print(values)
         print(' ' + '-'*(sum(max_element_length) + len(max_element_length) - 1))
+
+
+def GetAttribute(block_model, X, Y, Z, attribute_name):
+    block = block_model.getBlock(X, Y, Z)
+    return block.getValue(attribute_name)
+
