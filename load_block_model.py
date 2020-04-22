@@ -1,6 +1,8 @@
 import os
 import csv
 import sys, getopt
+from block import Block
+from block_model import BlockModel
 
 def mainLoad(argv):
    inputfile = ''
@@ -32,7 +34,23 @@ def mainPrint(argv):
       if opt in ("-i", "--ifile"):
          inputfile = arg
          
-   PrintBlockModel(inputfile)
+   blockModel = CreateBlockModel(inputfile)
+   PrintBlockModel(blockModel)
+
+def CreateBlockModel(input_name):
+    blocks = []
+    columns = []
+
+    with open(input_name, 'r') as csv_block_file:
+        lines = csv_block_file.readlines()
+        for line in range(len(lines)):  
+            if line == 0:
+                columns = lines[line].strip().split(',')
+            else:
+                block = Block(columns, lines[line].strip().split(','))
+                blocks.append(block)
+    return BlockModel(columns, blocks)
+
 
 def LoadBlockModel(input_name, columns_name, output_name):
 
@@ -56,16 +74,15 @@ def LoadBlockModel(input_name, columns_name, output_name):
                     csv_line[i] = float(csv_line[i])
             wr.writerow(csv_line)
 
-def PrintBlockModel(input_name):
+def PrintBlockModel(blockModel):
 
     elements = []
-
-    with open(input_name, 'r') as csv_block_file:
-        lines = csv_block_file.readlines()
-        for line in lines:  
-            elements.append(line.split(','))
-
     max_element_length = []
+
+    elements.append(blockModel.columns)
+
+    for x in range(len(blockModel.blocks)):
+        elements.append(blockModel.blocks[x].values)
 
     for n in range(len(elements[0])):
         max_element_length.append(0)
@@ -75,29 +92,12 @@ def PrintBlockModel(input_name):
             if len(elements[i][j]) > max_element_length[j]:
                 max_element_length[j] = len(str(elements[i][j]))
 
-    #id_print = (" "*int((max_element_length[0]-2)//2)) + "ID" + (" "*int((max_element_length[0]-2) - ((max_element_length[0]-2)//2)))
-    #x_print = (" "*int((max_element_length[1]-1)//2)) + "X" + (" "*int((max_element_length[1]-1) - ((max_element_length[1]-1)//2)))
-    #y_print = (" "*int((max_element_length[2]-1)//2)) + "Y" + (" "*int((max_element_length[2]-1) - ((max_element_length[2]-1)//2)))
-    #z_print = (" "*int((max_element_length[3]-1)//2)) + "Z" + (" "*int((max_element_length[3]-1) - ((max_element_length[3]-1)//2)))
-    #tonn_print = (" "*int((max_element_length[4]-4)//2)) + "TONN" + (" "*int((max_element_length[4]-4) - ((max_element_length[4]-4)//2)))
-    #block_value_print = (" "*int((max_element_length[5]-11)//2)) + "BLOCK VALUE" + (" "*int((max_element_length[5]-11) - ((max_element_length[5]-11)//2)))
-    #destination_print = (" "*int((max_element_length[6]-11)//2)) + "DESTINATION" + (" "*int((max_element_length[6]-11) - ((max_element_length[6]-11)//2)))
-    #cu_print = (" "*int((max_element_length[7]-4)//2)) + "CU %" + (" "*int((max_element_length[7]-4) - ((max_element_length[7]-4)//2)))
-    #process_print = (" "*int((max_element_length[8]-14)//2)) + "PROCESS PROFIT" + (" "*int((max_element_length[8]-14) - ((max_element_length[8]-14)//2)))
-
     print(' ' + '-'*(sum(max_element_length) + len(max_element_length) - 1))
-    #print('|' + id_print + '|' + x_print + '|' + y_print + '|' + z_print + '|' + tonn_print + '|' + block_value_print + '|' + destination_print + '|' + cu_print + '|' + process_print + '|')
-    #print(' ' + '-'*(sum(max_element_length) + len(max_element_length) - 1))
 
     for i in range(len(elements)):
         values = '|'
         for j in range(len(elements[0])):
             element = elements[i][j].strip()
-
-            #try:
-            #    element = int(elements[i][j])
-            #except:
-            #    element = float(elements[i][j])
 
             values += str(element) + (" "*int(max_element_length[j]-len(str(element)))) + '|'
         print(values)

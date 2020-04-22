@@ -1,11 +1,17 @@
 class BlockModel:
-    def __init__(self, blocks):
+    def __init__(self, columns, blocks):
+        self.columns = columns
         self.blocks = blocks
 
     def __eq__(self, other):
         try:
             if len(self.blocks) != len(other.blocks):
                 return False
+            if len(self.columns) != len(other.columns):
+                return False
+            for n in range(len(self.columns)):
+                if not(self.columns[n] == other.columns[n]):
+                    return False
             for i in range(len(self.blocks)):
                 if not(self.blocks[i].__eq__(other.blocks[i])):
                     return False
