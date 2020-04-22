@@ -22,6 +22,10 @@ class BlockModel:
     def getBlock(self, X, Y, Z):
         for i in range(len(self.blocks)):
             current_block = self.blocks[i]
-            if current_block.values[current_block.columns.index("X")] == X and current_block.values[current_block.columns.index("Y")] == Y and current_block.values[current_block.columns.index("Z")] == Z:
-                return current_block
+            try:
+                if int(current_block.values[current_block.columns.index("x")]) == X and int(current_block.values[current_block.columns.index("y")]) == Y and int(current_block.values[current_block.columns.index("z")]) == Z:
+                    return current_block
+            except:
+                if int(current_block.values[current_block.columns.index("<x>")]) == X and int(current_block.values[current_block.columns.index("<y>")]) == Y and int(current_block.values[current_block.columns.index("<z>")]) == Z:
+                    return current_block
         return "Block does not exist"
