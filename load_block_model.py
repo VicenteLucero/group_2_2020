@@ -165,7 +165,7 @@ def LoadBlockModel(input_name, columns_name, output_name):
 
     with open(output_name, 'w', newline='') as csv_block_file:
         wr = csv.writer(csv_block_file, quoting=csv.QUOTE_MINIMAL)
-        wr.writerow(columns.split(','))
+        wr.writerow(columns.strip().split(','))
         for line in lines:
             csv_line = line.split()
             for i in range(len(csv_line)):
