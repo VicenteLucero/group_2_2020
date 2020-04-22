@@ -78,3 +78,29 @@ There are 2 main console commands that can be used in this program.
     i.e.
 
     main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n "destination"
+
+The mineral names for each model are (file column name -> commandline parameter)
+
+1. newman1: 
+    - grade -> mineral
+
+2. zuck:
+    - ore_tonnes -> ore
+
+3. kd:
+    - Cu % -> copper
+
+4. p4hd:
+    - Au (oz/ton) -> gold
+    - Ag (oz/ton) -> silver
+    - Cu % -> copper
+
+5. marvin:
+    - au [ppm] -> gold
+    - Cu % -> copper
+
+6. w23:
+    - Au -> gold
+
+7. mclaughlin:
+    - Au (oz/ton) -> gold
