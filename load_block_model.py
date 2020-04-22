@@ -37,10 +37,7 @@ def printModelArguments(argv):
     
     blockModel = CreateBlockModel(inputfile)
     PrintBlockModel(blockModel)
-<<<<<<< HEAD
 
-=======
->>>>>>> 7bbf4be0bcb31f786ecb28dfa44fff02fa46bb38
 
 def numberOfBlocksArguments(argv):
     block_model_name = ""
