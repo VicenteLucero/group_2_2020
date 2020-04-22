@@ -30,7 +30,7 @@ if __name__ == "__main__":
         print('main.py -M -b <block_model_name> -x <block_x> -y <block_y> -z <block_z>')
         print('Mass in Kilograms of one block in a stored block model. Needs block model name and coordinates.')
         print('----')
-        print('main.py -G -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
+        print('main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
         print('Grade in Percentage for each Mineral of one block in a stored block model. Needs block model name, coordinates and mineral name.')
         print('----')
         print('main.py -A -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -n <attribute_name>')
