@@ -17,7 +17,7 @@ python -m unittest
 
 # To Use:
 
-There are 2 main console commands that can be used in this program.
+There are 6 main console commands that can be used in this program.
 
 1. Load Block Model:
 
