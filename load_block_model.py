@@ -22,7 +22,7 @@ def loadModelArguments(argv):
         elif opt in ("-o", "--ofile"):
             outputfile = arg
 
-    LoadBlockModel(inputfile, columnsfile, outputfile)
+    return LoadBlockModel(inputfile, columnsfile, outputfile)
 
 def printModelArguments(argv):
     inputfile = ''
@@ -53,7 +53,7 @@ def numberOfBlocksArguments(argv):
             block_model_name = arg
 
     block_model = CreateBlockModel(block_model_name)
-    printNumberOfBlocks(block_model)
+    return printNumberOfBlocks(block_model)
 
 def massInKilogramsArgument(argv):
     block_model_name = ""
@@ -64,7 +64,7 @@ def massInKilogramsArgument(argv):
     try:
         opts, args = getopt.getopt(argv, "b:x:y:z:", ["bname=", "xcoord=", "ycoord=", "zcoord="])
     except getopt.GetoptError:
-        print('main.py -M <block_model_name> <block_x> <block_y> <block_z>')
+        return 'main.py -M <block_model_name> <block_x> <block_y> <block_z>'
         sys.exit(2)
 
     for opt, arg in opts:
@@ -78,7 +78,7 @@ def massInKilogramsArgument(argv):
             z = int(arg)
 
     block_model = CreateBlockModel(block_model_name)
-    printMassInKilograms(block_model, x, y, z)
+    return printMassInKilograms(block_model, x, y, z)
 
 def gradeInPercentageArguments(argv):
     block_model_name = ""
@@ -91,7 +91,7 @@ def gradeInPercentageArguments(argv):
     try:
         opts, args = getopt.getopt(argv, "n:b:x:y:z:m:", ["nnams=", "bname=", "xcoord=", "ycoord=", "zcoord=", "mname="])
     except getopt.GetoptError:
-        print('main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
+        return 'main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>'
         sys.exit(2)
 
     for opt, arg in opts:
@@ -109,7 +109,7 @@ def gradeInPercentageArguments(argv):
             mineral_name = arg
 
     blocks = CreateBlockModel(block_model_name)
-    GetGradeOfMineral(blocks, model_name, x, y, z, mineral_name)
+    return GetGradeOfMineral(blocks, model_name, x, y, z, mineral_name)
 
 def attributeArguments(argv):
     block_model_name = ""
@@ -121,7 +121,7 @@ def attributeArguments(argv):
     try:
         opts, args = getopt.getopt(argv, "b:x:y:z:n:", ["bname=", "xcoord=", "ycoord=", "zcoord=", "aname="])
     except getopt.GetoptError:
-        print('main.py -A -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -n <attribute_name>')
+        return 'main.py -A -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -n <attribute_name>'
         sys.exit(2)
 
     for opt, arg in opts:
@@ -137,7 +137,7 @@ def attributeArguments(argv):
             attribute_name = arg
 
     blocks = CreateBlockModel(block_model_name)
-    GetAttribute(blocks, x, y, z, attribute_name)
+    return GetAttribute(blocks, x, y, z, attribute_name)
 
 def CreateBlockModel(input_name):
     blocks = []
@@ -178,6 +178,8 @@ def LoadBlockModel(input_name, columns_name, output_name):
                         csv_line[i] = str(csv_line[i])
             wr.writerow(csv_line)
 
+    return 1
+
 def PrintBlockModel(block_model):
 
     elements = []
@@ -211,33 +213,32 @@ def PrintBlockModel(block_model):
 def GetAttribute(block_model, X, Y, Z, attribute_name):
     block = block_model.getBlock(X, Y, Z)
     if type(block) is str:
-        print(block)
+        return block
     else:
-        print(block.getValue(attribute_name))
+        return block.getValue(attribute_name)
 
 def GetGradeOfMineral(block_model, block_model_name, X, Y, Z, mineral_name):
     block = block_model.getBlock(X, Y, Z)
     if type(block) is str:
-        print(block)
+        return block
     else:
-        print(block.getMineralGrade(mineral_name, block_model_name))
+        return block.getMineralGrade(mineral_name, block_model_name)
 
 def printNumberOfBlocks(block_model):
     number_of_blocks = len(block_model.blocks)
 
-    print(number_of_blocks)
+    return number_of_blocks
 
 def printMassInKilograms(block_model, x, y, z):
     block = block_model.getBlock(x, y, z)
     if type(block) is str:
-        print(block)
-        return
-    possible_names = ["<tonn>", "ton", "tonns", "tons", "rock_tonnes"]
-    
-    for name in possible_names:
-        if name in block_model.columns:
-            mass = float(block.getValue(name))*1000
-            print(str(mass), "kg")
-            return
+        return block
+    else:
+        possible_names = ["<tonn>", "ton", "tonns", "tons", "rock_tonnes"]
+        
+        for name in possible_names:
+            if name in block_model.columns:
+                mass = float(block.getValue(name))*1000
+                return str(mass) + "kg"
     
 

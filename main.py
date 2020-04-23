@@ -5,17 +5,17 @@ from load_block_model import loadModelArguments, printModelArguments, numberOfBl
 
 if __name__ == "__main__":
     if sys.argv[1] == '-L':
-        loadModelArguments(sys.argv[2:])
+        print(loadModelArguments(sys.argv[2:]))
     elif sys.argv[1] == '-P':
         printModelArguments(sys.argv[2:])
     elif sys.argv[1] == '-N':
-        numberOfBlocksArguments(sys.argv[2:])
+        print(numberOfBlocksArguments(sys.argv[2:]))
     elif sys.argv[1] == '-M':
-        massInKilogramsArgument(sys.argv[2:])
+        print(massInKilogramsArgument(sys.argv[2:]))
     elif sys.argv[1] == '-G':
-        gradeInPercentageArguments(sys.argv[2:])
+        print(gradeInPercentageArguments(sys.argv[2:]))
     elif sys.argv[1] == '-A':
-        attributeArguments(sys.argv[2:])
+        print(attributeArguments(sys.argv[2:]))
     else:
         print('\nAvailable commands:\n')
         print('main.py -L -i <inputfile> -c <columnsFile> -o <outputfile>')
