@@ -39,7 +39,7 @@ There are 2 main console commands that can be used in this program.
 
     main.py -P -i kd_blocks.csv
 
-2. Print number of blocks in a previously saved model:
+3. Print number of blocks in a previously saved model:
 
     The following command is used to print the number of blocks in a block model that was prevoiusly loaded:
 
@@ -49,7 +49,7 @@ There are 2 main console commands that can be used in this program.
 
     main.py -N -b kd_blocks.csv
 
-3. Print mass in Kilograms of one block in a stored block model:
+4. Print mass in Kilograms of one block in a stored block model:
 
     The following command is used to print the mass in kilograms of a block stored in a block model previously loaded in a specific coordinate:
 
@@ -59,7 +59,7 @@ There are 2 main console commands that can be used in this program.
 
     main.py -M -b kd_blocks.csv -x 11 -y 0 -z 18
 
-4. Print grade in percentage for each mineral of one block in a stored block model:
+5. Print grade in percentage for each mineral of one block in a stored block model:
 
     The following command is used to print the grade in percentage for a mineral in a block of a previously loaded block model in a specific coordinate:
 
@@ -69,7 +69,7 @@ There are 2 main console commands that can be used in this program.
 
     main.py -G -n kd -n kd_blocks.csv -x 11 -y 0 -z 18 -m copper
 
-5. Print value of attribute of one block in a stored block model:
+6. Print value of attribute of one block in a stored block model:
 
     The following command is used to print the value of any attribute in a previously stored block model in a specific coordinate:
 
