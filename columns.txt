@@ -1,1 +1,1 @@
-id,x,y,z,cost,value,rock_tonnes,ore_tonnes
+id,x,y,z,blockvalue,ton,destination,Au(oz/ton)
