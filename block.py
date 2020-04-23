@@ -31,11 +31,10 @@ class Block:
         elif model.lower() == 'zuck_small' or model.lower() == 'zuck_medium' or model.lower() == 'zuck_large':
             ore_tonnes = float(self.values[self.columns.index('ore_tonnes')])
             rock_tonnes = float(self.values[self.columns.index('rock_tonnes')])
-            total_weight = ore_tonnes + rock_tonnes
             if mineral.lower() == 'ore':
-                return (100 * ore_tonnes) / total_weight
+                return (100 * ore_tonnes) / rock_tonnes
             elif mineral.lower() == 'rock':
-                return (100 * rock_tonnes) / total_weight
+                return rock_tonnes
         elif model.lower() == 'kd':
             if mineral.lower() == 'copper':
                 grade = ''
@@ -82,7 +81,13 @@ class Block:
                     gold_ppm = float(self.values[self.columns.index('au [ppm]')])
                 return gold_ppm / 10000
         elif model.lower() == 'w23':
-            pass
+            if mineral.lower() == 'gold':
+                gold = 0.0
+                try:
+                    gold = float(self.values[self.columns.index('AuFA')])
+                except:
+                    gold = float(self.values[self.columns.index('<AuFA>')])
+                return gold * 100
         elif model.lower() == 'mclaughlin_limit' or model.lower() == 'mclaughlin':
             if mineral.lower() == 'gold':
                 gold_ppm = 0

@@ -91,7 +91,7 @@ def gradeInPercentageArguments(argv):
     try:
         opts, args = getopt.getopt(argv, "n:b:x:y:z:m:", ["nnams=", "bname=", "xcoord=", "ycoord=", "zcoord=", "mname="])
     except getopt.GetoptError:
-        print('main.py -G -n <model_name> -b <block_model_name.csv> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
+        print('main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>')
         sys.exit(2)
 
     for opt, arg in opts:
@@ -165,7 +165,7 @@ def LoadBlockModel(input_name, columns_name, output_name):
 
     with open(output_name, 'w', newline='') as csv_block_file:
         wr = csv.writer(csv_block_file, quoting=csv.QUOTE_MINIMAL)
-        wr.writerow(columns.split(','))
+        wr.writerow(columns.strip().split(','))
         for line in lines:
             csv_line = line.split()
             for i in range(len(csv_line)):
