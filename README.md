@@ -12,8 +12,9 @@ All modules required (os, unittest, csv, sys, getopt) should come with python 3.
 There are 3 tests implemented in a file each one (test_block, test_block_model, test_load_block_model).
 To run this tests just type in the command console the following command (be sure to have your console in the correct directory):
 
-run all the tests: python -m unittest
-run an specific test: python -m unittest test_name 
+- run all the tests: python -m unittest
+
+- run an specific test: python -m unittest test_name
 
 # To Use:
 
