@@ -1,1 +1,6 @@
-id,x,y,z,blockvalue,ton,destination,Au(oz/ton)
+<id>,<x>,<y>,<z>,<tonn>,<blockvalue>,<destination>,<Au (oz/ton)>,<Ag (oz/ton)>,<Cu %>
+<tonn>
+3
+<Cu %>,copper,%
+<Au (oz/ton)>,gold,oz/ton
+<Ag (oz/ton)>,silver,oz/ton

@@ -1,4 +1,9 @@
 <id>,<x>,<y>,<z>,<tonn>,<blockvalue>,<destination>,<Au (oz/ton)>,<Ag (oz/ton)>,<Cu %>
+<tonn>
+3
+<Cu %>,copper,%
+<Au (oz/ton)>,gold,oz/ton
+<Ag (oz/ton)>,silver,oz/ton
 0,58,11,64,3120,-5116,2,0,1.108,0
 1,59,11,64,3120,-4087,1,0,1.108,0
 2,60,11,64,3120,-4087,1,0,1.108,0

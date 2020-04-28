@@ -7,22 +7,19 @@ from block_model import BlockModel
 
 def loadModelArguments(argv):
     inputfile = ''
-    outputfile = ''
     columnsfile = ''
     try:
-        opts, args = getopt.getopt(argv,"i:c:o:",["ifile=", "cfile=", "ofile="])
+        opts, args = getopt.getopt(argv,"i:c:",["ifile=", "cfile="])
     except getopt.GetoptError:
-        print('main.py -L -i <inputfile> -c <columnsFile> -o <outputfile>')
+        print('main.py -L -i <inputfile> -c <columnsFile>')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-i", "--ifile"):
             inputfile = arg
         elif opt in ("-c", "--cfile"):
             columnsfile = arg
-        elif opt in ("-o", "--ofile"):
-            outputfile = arg
 
-    return LoadBlockModel(inputfile, columnsfile, outputfile)
+    return LoadBlockModel(inputfile, columnsfile)
 
 def printModelArguments(argv):
     inputfile = ''
@@ -82,22 +79,19 @@ def massInKilogramsArgument(argv):
 
 def gradeInPercentageArguments(argv):
     block_model_name = ""
-    model_name = ""
     x = 0
     y = 0
     z = 0
     mineral_name = ""
 
     try:
-        opts, args = getopt.getopt(argv, "n:b:x:y:z:m:", ["nnams=", "bname=", "xcoord=", "ycoord=", "zcoord=", "mname="])
+        opts, args = getopt.getopt(argv, "b:x:y:z:m:", ["bname=", "xcoord=", "ycoord=", "zcoord=", "mname="])
     except getopt.GetoptError:
-        return 'main.py -G -n <model_name> -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>'
+        return 'main.py -G -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -m <mineral_name>'
         sys.exit(2)
 
     for opt, arg in opts:
-        if opt in ("-n", "--nname"):
-            model_name = arg
-        elif opt in ("-b", "--bname"):
+        if opt in ("-b", "--bname"):
             block_model_name = arg
         elif opt in ("-x", "--xcoord"):
             x = int(arg)
@@ -109,7 +103,7 @@ def gradeInPercentageArguments(argv):
             mineral_name = arg
 
     blocks = CreateBlockModel(block_model_name)
-    return GetGradeOfMineral(blocks, model_name, x, y, z, mineral_name)
+    return GetGradeOfMineral(blocks, x, y, z, mineral_name)
 
 def attributeArguments(argv):
     block_model_name = ""
@@ -141,6 +135,9 @@ def attributeArguments(argv):
 
 def CreateBlockModel(input_name):
     blocks = []
+    mass = ""
+    n_minerals = 1
+    minerals = {}
     columns = []
 
     with open(input_name, 'r') as csv_block_file:
@@ -148,24 +145,38 @@ def CreateBlockModel(input_name):
         for line in range(len(lines)):  
             if line == 0:
                 columns = lines[line].strip().split(',')
+            elif line == 1:
+                mass = lines[line].strip()
+            elif line == 2:
+                n_minerals = int(lines[line].strip())
+            elif line in range(3, 3 + n_minerals):
+                MINERAL_COLUMN = 0
+                MINERAL_NAME = 1
+                MINERAL_UNIT = 2
+                mineral_info = lines[line].strip().split(',')
+                minerals[mineral_info[MINERAL_NAME]] = [mineral_info[MINERAL_UNIT], mineral_info[MINERAL_COLUMN]]
             else:
-                block = Block(columns, lines[line].strip().split(','))
+                block = Block(columns, mass, minerals, lines[line].strip().split(','))
                 blocks.append(block)
     return BlockModel(columns, blocks)
 
-def LoadBlockModel(input_name, columns_name, output_name):
+def LoadBlockModel(input_name, columns_name):
 
     block_file = open(input_name, "r")
     lines = block_file.readlines()
     block_file.close()
 
     columns_file = open(columns_name, "r")
-    columns = columns_file.readline()
+    columns = columns_file.readlines()
     columns_file.close()
+
+    input_name = input_name.split('.')
+    output_name = input_name[0] + "_" + input_name[1] + ".csv"
 
     with open(output_name, 'w', newline='') as csv_block_file:
         wr = csv.writer(csv_block_file, quoting=csv.QUOTE_MINIMAL)
-        wr.writerow(columns.strip().split(','))
+        for column in columns:
+            wr.writerow(column.strip().split(','))
         for line in lines:
             csv_line = line.split()
             for i in range(len(csv_line)):
@@ -217,12 +228,12 @@ def GetAttribute(block_model, X, Y, Z, attribute_name):
     else:
         return block.getValue(attribute_name)
 
-def GetGradeOfMineral(block_model, block_model_name, X, Y, Z, mineral_name):
+def GetGradeOfMineral(block_model, X, Y, Z, mineral_name):
     block = block_model.getBlock(X, Y, Z)
     if type(block) is str:
         return block
     else:
-        return block.getMineralGrade(mineral_name, block_model_name)
+        return block.getMineralGrade(mineral_name)
 
 def printNumberOfBlocks(block_model):
     number_of_blocks = len(block_model.blocks)
