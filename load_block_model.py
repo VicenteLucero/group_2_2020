@@ -242,3 +242,26 @@ def printMassInKilograms(block_model, x, y, z):
                 return str(mass) + "kg"
     
 
+def reblockArguments(argv):
+    rx = ""
+    ry = ""
+    rz = ""
+    inputfile = ""
+    try:
+        opts, args = getopt.getopt(argv, "i:x:y:z:", ["ifile=", "xcoord=", "ycoord=", "zcoord="])
+    except getopt.GetoptError:
+        print('main.py -R -i <inputfile> -x <xreblock> -y <yreblock> -z <zreblock>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-i", "--ifile"):
+            inputfile = arg
+        elif opt in ("-x", "--xcoord"):
+            rx = arg
+        elif opt in ("-y", "--ycoord"):
+            ry = arg
+        elif opt in ("-z", "--zcoord"):
+            rz = arg
+
+
+    blockModel = CreateBlockModel(inputfile)
+    blocks = blockModel.reBlock(rx, ry, rz)

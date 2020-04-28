@@ -1,7 +1,7 @@
 import os
 import csv
 import sys, getopt
-from load_block_model import loadModelArguments, printModelArguments, numberOfBlocksArguments, massInKilogramsArgument, gradeInPercentageArguments, attributeArguments
+from load_block_model import loadModelArguments, printModelArguments, numberOfBlocksArguments, massInKilogramsArgument, gradeInPercentageArguments, attributeArguments, reblockArguments
 
 if __name__ == "__main__":
     if sys.argv[1] == '-L':
@@ -16,6 +16,8 @@ if __name__ == "__main__":
         print(gradeInPercentageArguments(sys.argv[2:]))
     elif sys.argv[1] == '-A':
         print(attributeArguments(sys.argv[2:]))
+    elif sys.argv[1] == '-R':
+        print(reblockArguments(sys.argv[2:]))
     else:
         print('\nAvailable commands:\n')
         print('main.py -L -i <inputfile> -c <columnsFile> -o <outputfile>')
