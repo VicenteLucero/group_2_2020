@@ -3,7 +3,7 @@ import csv
 import sys, getopt
 from block import Block
 from block_model import BlockModel
-
+from collections import defaultdict
 
 def loadModelArguments(argv):
     inputfile = ''
@@ -139,6 +139,9 @@ def CreateBlockModel(input_name):
     n_minerals = 1
     minerals = {}
     columns = []
+    classification = []
+    block_map = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    block_values = []
 
     with open(input_name, 'r') as csv_block_file:
         lines = csv_block_file.readlines()
@@ -146,19 +149,35 @@ def CreateBlockModel(input_name):
             if line == 0:
                 columns = lines[line].strip().split(',')
             elif line == 1:
-                mass = lines[line].strip()
+                classification = list(map(int, lines[line].strip().split(',')))
             elif line == 2:
+                mass = lines[line].strip()
+            elif line == 3:
                 n_minerals = int(lines[line].strip())
-            elif line in range(3, 3 + n_minerals):
+            elif line in range(4, 4 + n_minerals):
                 MINERAL_COLUMN = 0
                 MINERAL_NAME = 1
                 MINERAL_UNIT = 2
                 mineral_info = lines[line].strip().split(',')
                 minerals[mineral_info[MINERAL_NAME]] = [mineral_info[MINERAL_UNIT], mineral_info[MINERAL_COLUMN]]
             else:
-                block = Block(columns, mass, minerals, lines[line].strip().split(','))
+                block_values = lines[line].strip().split(',')
+                block = Block(columns, mass, minerals, block_values, classification)
                 blocks.append(block)
-    return BlockModel(columns, blocks)
+                try:
+                    block_x = str(block_values[columns.index("x")])
+                except:
+                    block_x = str(block_values[columns.index("<x>")])
+                try:
+                    block_y = str(block_values[columns.index("y")])
+                except:
+                    block_y = str(block_values[columns.index("<y>")])
+                try:
+                    block_z = str(block_values[columns.index("z")])
+                except:
+                    block_z = str(block_values[columns.index("<z>")])
+                block_map[block_x][block_y][block_z] = block
+    return BlockModel(columns, blocks, block_map)
 
 def LoadBlockModel(input_name, columns_name):
 
@@ -275,4 +294,6 @@ def reblockArguments(argv):
 
 
     blockModel = CreateBlockModel(inputfile)
-    blocks = blockModel.reBlock(rx, ry, rz)
+    blocks = blockModel.reBlock(int(rx), int(ry), int(rz))
+
+    print(len(blocks), len(blocks[0]), len(blocks[0][0]))

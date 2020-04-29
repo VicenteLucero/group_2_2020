@@ -1,9 +1,10 @@
 class Block:
-    def __init__(self, columns, mass, minerals, values):
+    def __init__(self, columns, mass, minerals, values, classification):
         self.columns = columns
         self.mass = mass
         self.minerals = minerals
         self.values = values
+        self.classification = classification
 
     #Fix this with new parameters
     def __eq__(self, other):
@@ -53,3 +54,9 @@ class Block:
             return "Mineral does not exist in this model"
 
     
+    def getValueClassificationPair(self, column):
+        try:
+            column_index = self.columns.index(column)
+            return (self.values[column_index], self.classification[column_index])
+        except:
+            return "Column does not exist"
