@@ -38,15 +38,15 @@ There are 6 main console commands that can be used in this program.
     - fourth line: integer representing the n amount of minerals.
     - fifth to n-lines more: column name of the mineral, common name of the mineral and metric.
 
-    i.e.
-
-    <id>,<x>,<y>,<z>,<tonn>,<blockvalue>,<destination>,<Au (oz/ton)>,<Ag (oz/ton)>,<Cu %>
-    0,0,0,0,0,0,2,1,1,1
-    <tonn>
-    3
-    <Cu %>,copper,%
-    <Au (oz/ton)>,gold,oz/ton
-    <Ag (oz/ton)>,silver,oz/ton
+    i.e.  
+  
+    id,x,y,z,tonn,blockvalue,destination,Au (oz/ton),Ag (oz/ton),Cu %  
+    0,0,0,0,0,0,2,1,1,1 
+    tonn>
+    3  
+    Cu %,copper,%  
+    Au (oz/ton),gold,oz/ton  
+    Ag (oz/ton),silver,oz/ton  
 
 2. Print a previously saved block model:
 
@@ -82,11 +82,11 @@ There are 6 main console commands that can be used in this program.
 
     The following command is used to print the grade in percentage for a mineral in a block of a previously loaded block model in a specific coordinate:
 
-    main.py -G -n[blockModelName] -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -m [mineralName]
+    main.py -G -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -m [mineralName]
 
     i.e.
 
-    main.py -G -n kd -n kd_blocks.csv -x 11 -y 0 -z 18 -m copper
+    main.py -G -b kd_blocks.csv -x 11 -y 0 -z 18 -m copper
 
 6. Print value of attribute of one block in a stored block model:
 
@@ -107,29 +107,3 @@ There are 6 main console commands that can be used in this program.
     i.e.
 
     main.py -R -i kd_blocks.csv -x 2 -y 3 -z 2
-
-The mineral names for each model are (file column name -> commandline parameter)
-
-1. newman1: 
-    - grade -> mineral
-
-2. zuck:
-    - ore_tonnes -> ore
-
-3. kd:
-    - Cu % -> copper
-
-4. p4hd:
-    - Au (oz/ton) -> gold
-    - Ag (oz/ton) -> silver
-    - Cu % -> copper
-
-5. marvin:
-    - au [ppm] -> gold
-    - Cu % -> copper
-
-6. w23:
-    - Au -> gold
-
-7. mclaughlin:
-    - Au (oz/ton) -> gold
