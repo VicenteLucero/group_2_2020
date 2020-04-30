@@ -13,10 +13,10 @@ class Block:
                 return False
             if len(self.values) != len(other.values):
                 return False
-            for i in range(len(self.columns)):
-                if not(self.columns[i] == other.columns[i]):
+            for list_index in range(len(self.columns)):
+                if not(self.columns[list_index] == other.columns[list_index]):
                     return False
-                if not(self.values[i] == other.values[i]):
+                if not(self.values[list_index] == other.values[list_index]):
                     return False
             return True
         except:

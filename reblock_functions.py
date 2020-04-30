@@ -2,6 +2,8 @@ from block import *
 import random
 
 def emptyblocks(x_index, y_index, z_index):
+    if x_index is None or y_index is None or z_index is None:
+        return "Invalid parameters"
     new_blocks = []
     for i in range(0, x_index):
         new_blocks.append([])
@@ -10,23 +12,6 @@ def emptyblocks(x_index, y_index, z_index):
             for k in range(0, z_index):
                 new_blocks[i][j].append(None)
     return new_blocks
-
-
-def reblockArroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
-    columns = blockmodel.columns
-    blocks = []
-    for x in range(block_x, (block_x + reblock_x)):
-        for y in range(block_y, (block_y + reblock_y)):
-            for z in range(block_z, (block_z + reblock_z)):
-                current_block = blockmodel.getBlock(x, y, z)
-                if current_block != "Block does not exist":
-                    blocks.append(current_block)
-    if len(blocks) == 1:
-        return blocks[0]
-    elif len(blocks) > 1:
-        new_block = newBlockValues(columns, blocks, block_x, block_y, block_z)
-        return new_block
-
 
 def newBlockValues(columns, blocks, x, y, z):
     new_values = []
@@ -76,22 +61,18 @@ def newBlockValues(columns, blocks, x, y, z):
                 mode = modes[random.randint(0, len(modes) - 1)]
                 #print(mode)
     return Block(columns, blocks[0].mass, blocks[0].minerals, new_values, blocks[0].classification)
-    # new_values = [x, y, z]
-    # value_int = 0
-    # value_string = []
-    # string_column = False
-    # for c in columns[3:]:
-    #    for b in blocks:
-    #        t_value = Block.getValue(b, c)
-    #        try:
-    #            value_int += int(t_value)
-    #        except AttributeError:
-    #            string_column = True
-    #            value_string.append(t_value)
-    #    if string_column:
-    #        new_values.append(t_value)
-    #    else:
-    #        new_values.append(t_value)
-    #    string_column = False
-    # new_block = Block(columns, new_values)
-    # return new_block
+
+def reblockArroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
+    columns = blockmodel.columns
+    blocks = []
+    for x in range(block_x, (block_x + reblock_x)):
+        for y in range(block_y, (block_y + reblock_y)):
+            for z in range(block_z, (block_z + reblock_z)):
+                current_block = blockmodel.getBlock(x, y, z)
+                if current_block != "Block does not exist":
+                    blocks.append(current_block)
+    if len(blocks) == 1:
+        return blocks[0]
+    elif len(blocks) > 1:
+        new_block = newBlockValues(columns, blocks, block_x, block_y, block_z)
+        return new_block
