@@ -23,13 +23,30 @@ There are 6 main console commands that can be used in this program.
 
 1. Load Block Model:
 
-    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name, also columns.txt must be a one line file with the column_names of the model separated by commas):
+    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name).
 
-    main.py -L -i [inputFile] -c [columnsFile.txt] -o [outputFile.csv]
+    main.py -L -i [inputFile] -c [columnsFile.txt]
 
     i.e.
 
-    main.py -L -i kd.blocks -c columns.txt -o kd_blocks.csv
+    main.py -L -i kd.blocks -c columns.txt
+
+    IMPORTANT: the columns file must follow the following structure:
+    - first line: columns (attributes) of the model separated by comas.
+    - second line: classification of the attributes separated by comas. 0 = summable value, 1 = proportional value, 2 = mode.
+    - third line: column name of the mass.
+    - fourth line: integer representing the n amount of minerals.
+    - fifth to n-lines more: column name of the mineral, common name of the mineral and metric.
+
+    i.e.
+
+    <id>,<x>,<y>,<z>,<tonn>,<blockvalue>,<destination>,<Au (oz/ton)>,<Ag (oz/ton)>,<Cu %>
+    0,0,0,0,0,0,2,1,1,1
+    <tonn>
+    3
+    <Cu %>,copper,%
+    <Au (oz/ton)>,gold,oz/ton
+    <Ag (oz/ton)>,silver,oz/ton
 
 2. Print a previously saved block model:
 
@@ -80,6 +97,16 @@ There are 6 main console commands that can be used in this program.
     i.e.
 
     main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n "destination"
+
+7. Reblock the model by merging blocks:
+
+    The following command is used to reblock a previously stored block model. The amount of merged blocks into one is the product between the given dimensions in the command line.
+
+    main.py -R -i [inputfile] -x [xreblock] -y [yreblock] -z [zreblock]
+
+    i.e.
+
+    main.py -R -i kd_blocks.csv -x 2 -y 3 -z 2
 
 The mineral names for each model are (file column name -> commandline parameter)
 

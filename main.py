@@ -37,3 +37,6 @@ if __name__ == "__main__":
         print('----')
         print('main.py -A -b <block_model_name> -x <block_x> -y <block_y> -z <block_z> -n <attribute_name>')
         print('Search attribute of one block in a stored block model. Needs block model name, coordinates and attribute name.')
+        print('----')
+        print('main.py -R -i <inputfile> -x <xreblock> -y <yreblock> -z <zreblock>')
+        print('Reblock the model by merging blocks after the dimensions indicated.')
