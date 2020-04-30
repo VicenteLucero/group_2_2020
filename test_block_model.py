@@ -2,6 +2,7 @@ import unittest
 from block_model import BlockModel
 from block import Block
 from collections import defaultdict
+from load_block_model import CreateBlockModel
 
 
 class TestBlockModel(unittest.TestCase):
@@ -58,6 +59,112 @@ class TestBlockModel(unittest.TestCase):
         block_model = BlockModel(columns, [block_1, block_2], block_map)
         self.assertEqual(block_model.getBlock(2, 3, 5), "Block does not exist")
 
+    def test_reblock_when_valid_parameters(self):
+        columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        classification = [0, 0, 0, 0, 0, 2, 1, 1, 1]
+        mass = "<tonn>"
+        minerals = {'copper': ['%', '<Cu %>'], 'gold': ['oz/ton', '<Au (oz/ton)>'], 'silver': ['ppm', '<Ag [ppm]>']}
+        
+        block_1 = Block(columns, mass, minerals, [0, 0, 0, 0, 5300, 1, 0.1, 0.0009999999999999998, 10.0], classification)
+        block_2 = Block(columns, mass, minerals, [2, 0, 0, 2, 1700, 1, 0.1, 0.001, 10.0], classification)
+        block_3 = Block(columns, mass, minerals, [8, 0, 2, 0, 4400, 1, 0.1, 0.001, 10.0], classification)
+        block_4 = Block(columns, mass, minerals, [10, 0, 2, 2, 6200, 2, 0.1, 0.0009999999999999998, 10.0], classification)
+        block_5 = Block(columns, mass, minerals, [32, 2, 0, 0, 4400, 2, 0.1, 0.0009999999999999998, 10.0], classification)
+        block_6 = Block(columns, mass, minerals, [34, 2, 0, 2, 4400, 2, 0.1, 0.001, 10.0], classification)
+        block_7 = Block(columns, mass, minerals, [40, 2, 2, 0, 2600, 1, 0.1, 0.001, 10.0], classification)
+        block_8 = Block(columns, mass, minerals, [42, 2, 2, 2, 2600, 1, 0.1, 0.001, 10.0], classification)
+
+        block_model = CreateBlockModel("test_data.csv")
+        mockup_result = [[[block_1, block_2],[block_3, block_4]],
+                         [[block_5, block_6],[block_7, block_8]]]
+        
+        result = block_model.reBlock(2, 2, 2)
+        x = 0
+        while x < len(result):
+            y = 0
+            while y < len(result[0]):
+                z = 0
+                while z < len(result[0][0]):
+                    self.assertEqual(result[x][y][z].__eq__(mockup_result[x][y][z]), True)
+                    z += 1
+                y += 1
+            x += 1
+
+    def test_reblock_when_resizing_by_1(self):
+        block_model = CreateBlockModel("test_data.csv")
+        blocks = block_model.blocks
+        mockup_result = []
+
+        count = 0
+        for x in range(4):
+            x_list = []
+            for y in range(4):
+                y_list = []
+                for z in range(4):
+                    y_list.append(blocks[count])
+                    count += 1
+                x_list.append(y_list)
+            mockup_result.append(x_list)
+
+        result = block_model.reBlock(1, 1, 1)
+        x = 0
+        while x < len(result):
+            y = 0
+            while y < len(result[0]):
+                z = 0
+                while z < len(result[0][0]):
+                    self.assertEqual(result[x][y][z].__eq__(mockup_result[x][y][z]), True)
+                    z += 1
+                y += 1
+            x += 1
+
+    def test_reblock_when_resizing_by_original_length(self):
+        columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        classification = [0, 0, 0, 0, 0, 2, 1, 1, 1]
+        mass = "<tonn>"
+        minerals = {'copper': ['%', '<Cu %>'], 'gold': ['oz/ton', '<Au (oz/ton)>'], 'silver': ['ppm', '<Ag [ppm]>']}
+        values = [0, 0, 0, 0, 31600, 1, 0.1, 0.0010000000000000009, 10.0]
+        mockup_result = [[[Block(columns, mass, minerals, values, classification)]]]
+
+        block_model = CreateBlockModel("test_data.csv")
+
+        result = block_model.reBlock(4, 4, 4)
+        x = 0
+        while x < len(result):
+            y = 0
+            while y < len(result[0]):
+                z = 0
+                while z < len(result[0][0]):
+                    self.assertEqual(result[x][y][z].__eq__(mockup_result[x][y][z]), True)
+                    z += 1
+                y += 1
+            x += 1
+
+    def test_reblock_when_model_is_empty(self):
+        columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        block_map = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+        block_model = BlockModel(columns, [], block_map)
+
+        result = block_model.reBlock(1, 1, 1)
+        self.assertEqual(result, [[[None]]])
+        
+    def test_reblock_when_invalid_rx(self):
+        block_model = CreateBlockModel("test_data.csv")
+        
+        result = block_model.reBlock(None, 2, 2)
+        self.assertEqual(result, "Invalid parameters")
+
+    def test_reblock_when_invalid_ry(self):
+        block_model = CreateBlockModel("test_data.csv")
+        
+        result = block_model.reBlock(2, None, 2)
+        self.assertEqual(result, "Invalid parameters")
+    
+    def test_reblock_when_invalid_rz(self):
+        block_model = CreateBlockModel("test_data.csv")
+        
+        result = block_model.reBlock(2, 2, None)
+        self.assertEqual(result, "Invalid parameters")
 
 if __name__ == '__main__':
     unittest.main()

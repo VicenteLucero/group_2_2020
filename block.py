@@ -16,6 +16,8 @@ class Block:
             for list_index in range(len(self.columns)):
                 if not(self.columns[list_index] == other.columns[list_index]):
                     return False
+                if self.classification[list_index] == 2:
+                    continue
                 if not(self.values[list_index] == other.values[list_index]):
                     return False
             return True

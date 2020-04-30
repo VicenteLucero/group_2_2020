@@ -1,8 +1,14 @@
 from block import *
 import random
 
+def invalidParameters(parameters):
+    for parameter in parameters:
+        if parameter is None:
+            return True
+    return False
+
 def emptyblocks(x_index, y_index, z_index):
-    if x_index is None or y_index is None or z_index is None:
+    if invalidParameters([x_index, y_index, z_index]):
         return "Invalid parameters"
     new_blocks = []
     for i in range(0, x_index):
@@ -14,10 +20,12 @@ def emptyblocks(x_index, y_index, z_index):
     return new_blocks
 
 def newBlockValues(columns, blocks, x, y, z):
+    if invalidParameters([columns, blocks, x, y, z]):
+        return "Invalid parameters"
     new_values = []
     for column in columns:
         if column == "id" or column == "<id>":
-            new_values.append(blocks[0].getValue(column))
+            new_values.append(int(blocks[0].getValue(column)))
         elif column == "x" or column == "<x>":
             new_values.append(x)
         elif column == "y" or column == "<y>":
@@ -59,10 +67,13 @@ def newBlockValues(columns, blocks, x, y, z):
                     elif values.count(v) == mode_max and v not in modes:
                         modes.append(v)
                 mode = modes[random.randint(0, len(modes) - 1)]
+                new_values.append(mode)
                 #print(mode)
     return Block(columns, blocks[0].mass, blocks[0].minerals, new_values, blocks[0].classification)
 
 def reblockArroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
+    if invalidParameters([blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z]):
+        return "Invalid parameters"
     columns = blockmodel.columns
     blocks = []
     for x in range(block_x, (block_x + reblock_x)):
