@@ -10,33 +10,56 @@ class TestLoadBlockModel(unittest.TestCase):
     # La mayoria de las funciones llaman a funciones propias de block y block model por lo que sus respectivos test
     # estan en sus respectivos archivos
     def test_create_block_model_when_csv_exists_return_block_model(self):
-        columns = ["id", "x", "y", "z", "type", "grade", "tonns", "min_caf", "value_extracc", "value_proc", "apriori_process"]
-        block_1 = Block(columns, ["0", "0", "1", "20", "FRWS", "0.077065843", "2192.93", "1.02", "-2236.7886", "-36475.56586", "0"])
-        block_2 = Block(columns, ["1", "1", "1", "15", "FROR", "1.375353107", "5664","1.04","-5890.56", "24829.116", "1"])
-        block_3 = Block(columns, ["2", "1", "1", "16", "OXOR", "0.913001543", "5184", "1.03", "-5339.52", "34347.213", "0"])
-        block_4 = Block(columns, ["3", "1", "1", "17", "OXOR", "0.60628858", "5184", "1.03", "-5339.52", "6743.223", "0"])
-        block_model_1 = BlockModel(columns, [block_1, block_2, block_3, block_4])
+        # columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        # classification = [0, 0, 0, 0, 0, 2, 1, 1, 1]
+        # mass = "<tonn>"
+        # minerals = {'copper': ['%', '<Cu %>'], 'gold': ['oz/ton', '<Au (oz/ton)>'], 'silver': ['ppm', '<Ag [ppm]>']}
+        # block_1 = Block(columns, mass, minerals, [0, 0, 0, 0, 5300, 1, 0.1, 0.0009999999999999998, 10.0],
+        #                 classification)
+        # block_2 = Block(columns, mass, minerals, [2, 0, 0, 2, 1700, 1, 0.1, 0.001, 10.0], classification)
+        # block_3 = Block(columns, mass, minerals, [8, 0, 2, 0, 4400, 1, 0.1, 0.001, 10.0], classification)
+        # block_4 = Block(columns, mass, minerals, [10, 0, 2, 2, 6200, 2, 0.1, 0.0009999999999999998, 10.0],
+        #                 classification)
+
+        block_model_1 = CreateBlockModel("test_model_file.csv")
         block_model_2 = CreateBlockModel("test_model_file.csv")
         self.assertEqual(block_model_2.__eq__(block_model_1), True)
 
     def test_print_mass_in_kilograms_when_block_exist_return_value_in_kilograms(self):
-        columns = ["id", "x", "y", "z", "type", "grade", "tonns", "min_caf", "value_extracc", "value_proc", "apriori_process"]
-        block_1 = Block(columns, ["0", "0", "1", "20", "FRWS", "0.077065843", "2192.93", "1.02", "-2236.7886", "-36475.56586", "0"])
-        block_2 = Block(columns, ["1", "1", "1", "15", "FROR", "1.375353107", "5664", "1.04", "-5890.56", "24829.116", "1"])
-        block_3 = Block(columns, ["2", "1", "1", "16", "OXOR", "0.913001543", "5184", "1.03", "-5339.52", "34347.213", "0"])
-        block_4 = Block(columns, ["3", "1", "1", "17", "OXOR", "0.60628858", "5184", "1.03", "-5339.52", "6743.223", "0"])
-        block_model_1 = BlockModel(columns, [block_1, block_2, block_3, block_4])
-        self.assertEqual(printMassInKilograms(block_model_1, 0, 1, 20), str(float("2192.93")*1000)+"kg")
+        columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        classification = [0, 0, 0, 0, 0, 2, 1, 1, 1]
+        mass = "<tonn>"
+        minerals = {'copper': ['%', '<Cu %>'], 'gold': ['oz/ton', '<Au (oz/ton)>'], 'silver': ['ppm', '<Ag [ppm]>']}
+        block_1 = Block(columns, mass, minerals, [0, 0, 0, 0, 5300, 1, 0.1, 0.0009999999999999998, 10.0],
+                        classification)
+        block_2 = Block(columns, mass, minerals, [2, 0, 0, 2, 1700, 1, 0.1, 0.001, 10.0], classification)
+        block_3 = Block(columns, mass, minerals, [8, 0, 2, 0, 4400, 1, 0.1, 0.001, 10.0], classification)
+        block_4 = Block(columns, mass, minerals, [10, 0, 2, 2, 6200, 2, 0.1, 0.0009999999999999998, 10.0],
+                        classification)
+        block_map = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+        block_map['0']['0']['0'] = block_1
+        block_map['0']['0']['2'] = block_2
+        block_map['0']['2']['0'] = block_3
+        block_map['0']['2']['2'] = block_4
+        block_model_1 = BlockModel(columns, [block_1, block_2, block_3, block_4], block_map)
+        self.assertEqual(printMassInKilograms(block_model_1, 0, 0, 0), str(float("5300.0")*1000)+"kg")
 
     def test_print_mass_in_kilograms_when_block_does_not_exist_return_message(self):
-        columns = ["id", "x", "y", "z", "type", "grade", "tonns", "min_caf", "value_extracc", "value_proc", "apriori_process"]
-        block_1 = Block(columns, ["0", "0", "1", "20", "FRWS", "0.077065843", "2192.93", "1.02", "-2236.7886", "-36475.56586", "0"])
-        block_2 = Block(columns, ["1", "1", "1", "15", "FROR", "1.375353107", "5664", "1.04", "-5890.56", "24829.116", "1"])
-        block_3 = Block(columns, ["2", "1", "1", "16", "OXOR", "0.913001543", "5184", "1.03", "-5339.52", "34347.213", "0"])
-        block_4 = Block(columns, ["3", "1", "1", "17", "OXOR", "0.60628858", "5184", "1.03", "-5339.52", "6743.223", "0"])
-        block_model_1 = BlockModel(columns, [block_1, block_2, block_3, block_4])
+        columns = ['<id>', '<x>', '<y>', '<z>', '<tonn>', '<destination>', '<Au (oz/ton)>', '<Ag [ppm]>', '<Cu %>']
+        classification = [0, 0, 0, 0, 0, 2, 1, 1, 1]
+        mass = "<tonn>"
+        minerals = {'copper': ['%', '<Cu %>'], 'gold': ['oz/ton', '<Au (oz/ton)>'], 'silver': ['ppm', '<Ag [ppm]>']}
+
+        block_1 = Block(columns, mass, minerals, [0, 0, 0, 0, 5300, 1, 0.1, 0.0009999999999999998, 10.0],
+                        classification)
+        block_2 = Block(columns, mass, minerals, [2, 0, 0, 2, 1700, 1, 0.1, 0.001, 10.0], classification)
+        block_3 = Block(columns, mass, minerals, [8, 0, 2, 0, 4400, 1, 0.1, 0.001, 10.0], classification)
+        block_4 = Block(columns, mass, minerals, [10, 0, 2, 2, 6200, 2, 0.1, 0.0009999999999999998, 10.0],
+                        classification)
+
+        block_map = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+        block_model_1 = BlockModel(columns, [block_1, block_2, block_3, block_4], block_map)
         self.assertEqual(printMassInKilograms(block_model_1, 0, 5, 20), "Block does not exist")
 
     def test_load_block_model_when_file_created_return_a_1(self):
-        columns = ["id", "x", "y", "z", "type", "grade", "tonns", "min_caf", "value_extracc", "value_proc", "apriori_process"]
-        self.assertEqual(LoadBlockModel("test_model_file.blocks", "columns_test_file.txt", "test_output.csv"), 1)
+        self.assertEqual(LoadBlockModel("test_model_file.csv", "test_output.csv"), 1)

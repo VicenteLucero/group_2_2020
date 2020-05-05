@@ -71,7 +71,7 @@ def newBlockValues(columns, blocks, x, y, z):
                 #print(mode)
     return Block(columns, blocks[0].mass, blocks[0].minerals, new_values, blocks[0].classification)
 
-def reblockArroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
+def reblockAroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
     if invalidParameters([blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z]):
         return "Invalid parameters"
     columns = blockmodel.columns

@@ -76,7 +76,7 @@ class BlockModel:
             for j in range(0, y, ry):
                 count_z = 0
                 for k in range(0, z, rz):
-                    new_blocks[count_x][count_y][count_z] = reblockArroundBlocks(self, i, j, k, rx, ry, rz)
+                    new_blocks[count_x][count_y][count_z] = reblockAroundBlocks(self, i, j, k, rx, ry, rz)
                     count_z += 1
                 count_y += 1
             count_x += 1

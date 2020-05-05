@@ -77,48 +77,48 @@ class TestReblockFunctions(unittest.TestCase):
         mockup_block = Block(columns, mass, minerals, values, classification)
 
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, 2, 2, 4, 4, 4)
+        block = reblockAroundBlocks(block_model, 2, 2, 2, 4, 4, 4)
 
         self.assertEqual(block.__eq__(mockup_block), True)
 
     def test_reblock_arround_blocks_when_invalid_block_model(self):
-        block = reblockArroundBlocks(None, 2, 2, 2, 4, 4, 4)
+        block = reblockAroundBlocks(None, 2, 2, 2, 4, 4, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_x(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, None, 2, 2, 4, 4, 4)
+        block = reblockAroundBlocks(block_model, None, 2, 2, 4, 4, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_y(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, None, 2, 4, 4, 4)
+        block = reblockAroundBlocks(block_model, 2, None, 2, 4, 4, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_z(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, 2, None, 4, 4, 4)
+        block = reblockAroundBlocks(block_model, 2, 2, None, 4, 4, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_rx(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, 2, 2, None, 4, 4)
+        block = reblockAroundBlocks(block_model, 2, 2, 2, None, 4, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_ry(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, 2, 2, 4, None, 4)
+        block = reblockAroundBlocks(block_model, 2, 2, 2, 4, None, 4)
 
         self.assertEqual(block, "Invalid parameters")
 
     def test_reblock_arround_blocks_when_invalid_block_rz(self):
         block_model = CreateBlockModel("test_data.csv")
-        block = reblockArroundBlocks(block_model, 2, 2, 2, 4, 4, None)
+        block = reblockAroundBlocks(block_model, 2, 2, 2, 4, 4, None)
 
         self.assertEqual(block, "Invalid parameters")
 

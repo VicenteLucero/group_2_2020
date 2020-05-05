@@ -90,6 +90,31 @@ class TestBlockModel(unittest.TestCase):
                 y += 1
             x += 1
 
+    def test_reblock_return_correct_tonns_when_reblock(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        self.assertEqual(result[0][0][0].getValue('<tonn>'), 5300)
+
+    def test_reblock_return_correct_destination_when_reblock(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        self.assertEqual(result[0][0][0].getValue('<destination>'), 1)
+
+    def test_reblock_return_correct_Au_when_reblock(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        self.assertEqual(result[0][0][0].getValue('<Au (oz/ton)>'), 0.1)
+
+    def test_reblock_return_correct_Ag_when_reblock(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        self.assertEqual(result[0][0][0].getValue('<Ag [ppm]>'), 0.0009999999999999998)
+
+    def test_reblock_return_correct_Cu_when_reblock(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        self.assertEqual(result[0][0][0].getValue('<Cu %>'), 10.0)
+
     def test_reblock_when_resizing_by_1(self):
         block_model = CreateBlockModel("test_data.csv")
         blocks = block_model.blocks
