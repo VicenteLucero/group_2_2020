@@ -191,5 +191,31 @@ class TestBlockModel(unittest.TestCase):
         result = block_model.reBlock(2, 2, None)
         self.assertEqual(result, "Invalid parameters")
 
+    def test_reblock_return_same_dimensions_as_rx_ry_rz_divisors_when_no_divisible(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        result_2 = block_model.reBlock(3, 3, 3)
+        self.assertEqual(len(result), len(result_2))
+
+    def test_reblock_return_same_dimensions_divisor_rx_when_is_no_divisible(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        result_2 = block_model.reBlock(3, 2, 2)
+        self.assertEqual(len(result), len(result_2))
+
+    def test_reblock_return_same_dimensions_divisor_ry_when_is_no_divisible(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        result_2 = block_model.reBlock(2, 3, 2)
+        self.assertEqual(len(result), len(result_2))
+
+    def test_reblock_return_same_dimensions_divisor_rz_when_is_no_divisible(self):
+        block_model = CreateBlockModel("test_data.csv")
+        result = block_model.reBlock(2, 2, 2)
+        result_2 = block_model.reBlock(2, 2, 3)
+        self.assertEqual(len(result), len(result_2))
+
+
+
 if __name__ == '__main__':
     unittest.main()
