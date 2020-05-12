@@ -1,7 +1,6 @@
-<id>,<x>,<y>,<z>,<tonn>,<blockvalue>,<destination>,<Au (oz/ton)>,<Ag (oz/ton)>,<Cu %>
-0,0,0,0,0,0,2,1,1,1
+<id>,<x>,<y>,<z>,<tonn>,<au [ppm]>,<cu %>,<proc_profit>
+0,0,0,0,0,1,1,0
 <tonn>
-3
-<Cu %>,copper,%
-<Au (oz/ton)>,gold,oz/ton
-<Ag (oz/ton)>,silver,oz/ton
+2
+<au [ppm]>,gold,ppm
+<cu %>,copper,%

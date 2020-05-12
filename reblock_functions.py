@@ -45,7 +45,7 @@ def newBlockValues(columns, blocks, x, y, z):
                         values.append(float(val))
                     except:
                         values.append(str(val))
-                mass = float(block.getValue(block.mass))
+                mass = float(block.getValue(block.flyweight.mass))
                 masses.append(mass)
             if classification == 0:
                 new_values.append(sum(values))
@@ -69,7 +69,7 @@ def newBlockValues(columns, blocks, x, y, z):
                 mode = modes[random.randint(0, len(modes) - 1)]
                 new_values.append(mode)
                 #print(mode)
-    return Block(columns, blocks[0].mass, blocks[0].minerals, new_values, blocks[0].classification)
+    return Block(columns, blocks[0].flyweight.mass, blocks[0].flyweight.minerals, new_values, blocks[0].flyweight.classification)
 
 def reblockAroundBlocks(blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z):
     if invalidParameters([blockmodel, block_x, block_y, block_z, reblock_x, reblock_y, reblock_z]):
