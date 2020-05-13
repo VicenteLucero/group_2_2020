@@ -3,6 +3,7 @@ import csv
 import sys, getopt
 from block import Block
 from block_model import BlockModel
+from subscriber import Subscriber
 from collections import defaultdict
 
 def loadModelArguments(argv):
@@ -177,7 +178,11 @@ def CreateBlockModel(input_name):
                 except:
                     block_z = str(block_values[columns.index("<z>")])
                 block_map[block_x][block_y][block_z] = block
-    return BlockModel(columns, blocks, block_map)
+
+    block_model = BlockModel(columns, blocks, block_map)
+    sub = Subscriber()
+    block_model.add_subscriber(sub)
+    return block_model
 
 def LoadBlockModel(input_name, columns_name):
 
@@ -296,6 +301,8 @@ def reblockArguments(argv):
     blockModel = CreateBlockModel(inputfile)
     blocks = blockModel.reBlock(int(rx), int(ry), int(rz))
 
+    blockModel.notify("Creando nuevo archivo...")
+
     original_file = open(inputfile, 'r')
     model_name = inputfile.split('.')[0]
     reblock_file = open(model_name+'_reblock.csv', 'w', newline='')
@@ -327,5 +334,5 @@ def reblockArguments(argv):
                 reblock_file.writelines(line)
     
     reblock_file.close()
-
-    print(len(blocks), len(blocks[0]), len(blocks[0][0]))
+    
+    blockModel.notify("Archivo creado")

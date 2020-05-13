@@ -1,11 +1,13 @@
 from reblock_functions import *
+from publisher import Publisher
 import math
 
-class BlockModel:
+class BlockModel(Publisher):
     def __init__(self, columns, blocks, blocks_map):
         self.columns = columns
         self.blocks = blocks
         self.blocks_map = blocks_map
+        Publisher.__init__(self)
 
     def __eq__(self, other):
         try:
@@ -80,6 +82,9 @@ class BlockModel:
                     count_z += 1
                 count_y += 1
             count_x += 1
+
+            self.notify(str(i*100//x)+" % completado")
+        self.notify("100 % completado")
         return new_blocks
 
 
