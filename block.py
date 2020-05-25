@@ -1,18 +1,24 @@
 class Block:
-    def __init__(self, columns, values):
+    def __init__(self, columns, mass, minerals, values, classification):
         self.columns = columns
+        self.mass = mass
+        self.minerals = minerals
         self.values = values
+        self.classification = classification
 
+    #Fix this with new parameters
     def __eq__(self, other):
         try:
             if len(self.columns) != len(other.columns):
                 return False
             if len(self.values) != len(other.values):
                 return False
-            for i in range(len(self.columns)):
-                if not(self.columns[i] == other.columns[i]):
+            for list_index in range(len(self.columns)):
+                if not(self.columns[list_index] == other.columns[list_index]):
                     return False
-                if not(self.values[i] == other.values[i]):
+                if self.classification[list_index] == 2:
+                    continue
+                if not(self.values[list_index] == other.values[list_index]):
                     return False
             return True
         except:
@@ -24,76 +30,35 @@ class Block:
         except:
             return "Column does not exist"
 
-    def getMineralGrade(self, mineral, model):
-        if model.lower() == "newman1":
-            if mineral.lower() == 'mineral':
-                return self.values[self.columns.index('grade')]
-        elif model.lower() == 'zuck_small' or model.lower() == 'zuck_medium' or model.lower() == 'zuck_large':
-            ore_tonnes = float(self.values[self.columns.index('ore_tonnes')])
-            rock_tonnes = float(self.values[self.columns.index('rock_tonnes')])
-            if mineral.lower() == 'ore':
-                return (100 * ore_tonnes) / rock_tonnes
-            elif mineral.lower() == 'rock':
-                return rock_tonnes
-        elif model.lower() == 'kd':
-            if mineral.lower() == 'copper':
-                grade = ''
-                try:
-                    grade = self.values[self.columns.index('CU %')]
-                except:
-                    grade = self.values[self.columns.index('<CU %>')]
-                return grade
-        elif model.lower() == 'p4hd':
-            if mineral.lower() == 'copper':
-                grade = ''
-                try:
-                    grade = self.values[self.columns.index('Cu %')]
-                except:
-                    grade = self.values[self.columns.index('<Cu %>')]
-                return grade
-            elif mineral.lower() == 'silver':
-                silver_ppm = 0
-                try:
-                    silver_ppm = float(self.values[self.columns.index('Ag (oz/ton)')])
-                except:
-                    silver_ppm = float(self.values[self.columns.index('<Ag (oz/ton)>')])
-                return silver_ppm / 10000
-            elif mineral.lower() == 'gold':
-                gold_ppm = 0
-                try:
-                    gold_ppm = float(self.values[self.columns.index('Au (oz/ton)')])
-                except:
-                    gold_ppm = float(self.values[self.columns.index('<Au (oz/ton)>')])
-                return gold_ppm / 10000
-        elif model.lower() == 'marvin':
-            if mineral.lower() == 'copper':
-                grade = ''
-                try:
-                    grade = self.values[self.columns.index('cu %')]
-                except:
-                    grade = self.values[self.columns.index('<cu %>')]
-                return grade
-            elif mineral.lower() == 'gold':
-                gold_ppm = 0
-                try:
-                    gold_ppm = float(self.values[self.columns.index('<au [ppm]>')])
-                except:
-                    gold_ppm = float(self.values[self.columns.index('au [ppm]')])
-                return gold_ppm / 10000
-        elif model.lower() == 'w23':
-            if mineral.lower() == 'gold':
-                gold = 0.0
-                try:
-                    gold = float(self.values[self.columns.index('AuFA')])
-                except:
-                    gold = float(self.values[self.columns.index('<AuFA>')])
-                return gold * 100
-        elif model.lower() == 'mclaughlin_limit' or model.lower() == 'mclaughlin':
-            if mineral.lower() == 'gold':
-                gold_ppm = 0
-                try:
-                    gold_ppm = float(self.values[self.columns.index('Au(oz/ton)')])
-                except:
-                    gold_ppm = float(self.values[self.columns.index('<Au(oz/ton)>')])
-                return gold_ppm / 10000
-        return "Model or Mineral not valid"
+    def getMineralGrade(self, mineral):
+        MINERAL_UNIT = 0
+        MINERAL_COLUMN = 1
+        OZ_TON_TO_GRAMS = 28.3495
+        mineral_column_name = ""
+        mineral_value = 0.0
+        if mineral in self.minerals.keys():
+            mineral_column_name = self.minerals[mineral][MINERAL_COLUMN]
+            try:
+                mineral_value = float(self.values[self.columns.index(mineral_column_name)])
+            except:
+                return "Column of the mineral does not match any of the existing columns"
+            if self.minerals[mineral][MINERAL_UNIT] == "%":               
+                return mineral_value
+            elif self.minerals[mineral][MINERAL_UNIT] == "oz/ton":
+                return (mineral_value * OZ_TON_TO_GRAMS / 10000)
+            elif self.minerals[mineral][MINERAL_UNIT] == "ppm":
+                return float(mineral_value) / 10000
+            elif self.minerals[mineral][MINERAL_UNIT] == "tonn":
+                return (100 * float(mineral_value) / float(self.values[self.columns.index(self.mass)]))
+            else:
+                return "Unit of meassurement not recognised"           
+        else:
+            return "Mineral does not exist in this model"
+
+    
+    def getValueClassificationPair(self, column):
+        try:
+            column_index = self.columns.index(column)
+            return (self.values[column_index], self.classification[column_index])
+        except:
+            return "Column does not exist"

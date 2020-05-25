@@ -9,7 +9,7 @@ All modules required (os, unittest, csv, sys, getopt) should come with python 3.
 
 # To Test:
 
-There are 3 files that have tests created (test_block, test_block_model, test_load_block_model).
+There are some files that have tests created i.e. (test_block, test_block_model, test_load_block_model, etc).
 To run this tests just type in the command console the following command (be sure to have your console in the correct directory):
 
 - run all tests: python -m unittest
@@ -23,13 +23,30 @@ There are 6 main console commands that can be used in this program.
 
 1. Load Block Model:
 
-    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name, also columns.txt must be a one line file with the column_names of the model separated by commas):
+    The following command is used to load the block model and saves it into a csv file (be sure to use a .csv as the outputFile name).
 
-    main.py -L -i [inputFile] -c [columnsFile.txt] -o [outputFile.csv]
+    main.py -L -i [inputFile] -c [columnsFile.txt]
 
     i.e.
 
-    main.py -L -i kd.blocks -c columns.txt -o kd_blocks.csv
+    main.py -L -i kd.blocks -c columns.txt
+
+    IMPORTANT: the columns file must follow the following structure:
+    - first line: columns (attributes) of the model separated by comas.
+    - second line: classification of the attributes separated by comas. 0 = summable value, 1 = proportional value, 2 = mode.
+    - third line: column name of the mass.
+    - fourth line: integer representing the n amount of minerals.
+    - fifth to n-lines more: column name of the mineral, common name of the mineral and metric.
+
+    i.e.  
+  
+    id,x,y,z,tonn,blockvalue,destination,Au (oz/ton),Ag (oz/ton),Cu %  
+    0,0,0,0,0,0,2,1,1,1 
+    tonn>
+    3  
+    Cu %,copper,%  
+    Au (oz/ton),gold,oz/ton  
+    Ag (oz/ton),silver,oz/ton  
 
 2. Print a previously saved block model:
 
@@ -65,11 +82,11 @@ There are 6 main console commands that can be used in this program.
 
     The following command is used to print the grade in percentage for a mineral in a block of a previously loaded block model in a specific coordinate:
 
-    main.py -G -n[blockModelName] -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -m [mineralName]
+    main.py -G -b [blockModelFile.csv] -x [xCoordinate] -y [yCoordinate] -z [zCoordinate] -m [mineralName]
 
     i.e.
 
-    main.py -G -n kd -n kd_blocks.csv -x 11 -y 0 -z 18 -m copper
+    main.py -G -b kd_blocks.csv -x 11 -y 0 -z 18 -m copper
 
 6. Print value of attribute of one block in a stored block model:
 
@@ -81,28 +98,12 @@ There are 6 main console commands that can be used in this program.
 
     main.py -A -b kd_blocks.csv -x 11 -y 0 -z 12 -n "destination"
 
-The mineral names for each model are (file column name -> commandline parameter)
+7. Reblock the model by merging blocks:
 
-1. newman1: 
-    - grade -> mineral
+    The following command is used to reblock a previously stored block model. The amount of merged blocks into one is the product between the given dimensions in the command line.
 
-2. zuck:
-    - ore_tonnes -> ore
+    main.py -R -i [inputfile] -x [xreblock] -y [yreblock] -z [zreblock]
 
-3. kd:
-    - Cu % -> copper
+    i.e.
 
-4. p4hd:
-    - Au (oz/ton) -> gold
-    - Ag (oz/ton) -> silver
-    - Cu % -> copper
-
-5. marvin:
-    - au [ppm] -> gold
-    - Cu % -> copper
-
-6. w23:
-    - Au -> gold
-
-7. mclaughlin:
-    - Au (oz/ton) -> gold
+    main.py -R -i kd_blocks.csv -x 2 -y 3 -z 2
