@@ -10,7 +10,8 @@ import csv
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/api/block_models/')
+
+@app.route('/api/block_models/', methods=['GET'])
 def block_models():
     directory = os.getcwd()
     names = []
