@@ -16,6 +16,10 @@ To run this tests just type in the command console the following command (be sur
 
 - run a specific test: python -m unittest test_name
 
+# Web API:
+
+To be able to successfuly use the Web API, you have to first load the block models you want to use (refer to documentation on how to load block models into this application). 
+Reblocked models of the same model have priority over the original ones
 
 # To Use:
 

@@ -2,6 +2,53 @@ import os
 import csv
 import sys, getopt
 from load_block_model import loadModelArguments, printModelArguments, numberOfBlocksArguments, massInKilogramsArgument, gradeInPercentageArguments, attributeArguments, reblockArguments
+from flask import Flask
+from flask_cors import CORS
+import json
+import csv
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/block_models/')
+def block_models():
+    directory = os.getcwd()
+    names = []
+
+    for filename in os.listdir(directory):
+        name_extension = []
+        if filename.endswith(".csv"):
+            names.append({ 'name': filename.split("_blocks")[0] })
+
+    return json.dumps(names)
+
+@app.route('/api/block_models/<name>/blocks/')
+def show_blocks(name):
+    filename = name + "_blocks_reblock.csv"
+
+    if not os.path.exists(filename):
+        filename = name + "_blocks.csv"
+
+    with open(filename, 'r') as csv_file:
+        lines = csv_file.readlines()
+        offset = 3 + int(lines[3])
+
+        blocks = []
+        columns = []
+
+        for line in range(len(lines)):
+            block = {}
+            if line == 0:
+                columns = lines[line].strip().split(",")
+            elif line > offset:
+                current_block = lines[line].strip().split(",")
+                for i in range(len(columns)):
+                    block[str(columns[i])] = current_block[i]
+
+                blocks.append(block)
+
+        return json.dumps(blocks)
+
 
 if __name__ == "__main__":
     if sys.argv[1] == '-L':
