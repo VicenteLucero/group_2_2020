@@ -52,7 +52,7 @@ def show_blocks(name):
                     block[str(columns[i])] = current_block[i]
                 blocks.append(block)
         blocks_output = {"block_model": {"blocks": blocks}}
-        return json.dumps(blocks)
+        return json.dumps(blocks_output)
 
 
 @app.route('/api/block_models/<name>/blocks/<index>')
