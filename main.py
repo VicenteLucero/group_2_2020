@@ -62,7 +62,7 @@ def loaded_blocks(name):
 @app.route('/api/block_models/<name>/blocks/<index>/')
 def index_block(name, index):
     model = show_blocks(name)
-    block = model[index]
+    block = model[int(index)]
     return json.dumps({"block": block})
 
 
