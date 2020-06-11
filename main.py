@@ -9,26 +9,7 @@ import csv
 
 app = Flask(__name__)
 CORS(app)
-@app.route('/')
-def hello():
-    text = 'Hello World'
-    return text
 
-
-@app.route('/api/block_models/', methods=['GET'])
-def block_models():
-    directory = os.getcwd()
-    names = []
-
-    for filename in os.listdir(directory):
-        name_extension = []
-        if filename.endswith(".csv"):
-            names.append({ 'name': filename.split("_blocks")[0] })
-    names_output = {"block_models": names}
-    return json.dumps(names_output)
-
-
-@app.route('/api/block_models/<name>/blocks/')
 def show_blocks(name):
     filename = name + "_blocks_reblock.csv"
 
@@ -51,24 +32,38 @@ def show_blocks(name):
                 for i in range(len(columns)):
                     block[str(columns[i])] = current_block[i]
                 blocks.append(block)
-        blocks_output = {"block_model": {"blocks": blocks}}
-        return json.dumps(blocks_output)
+        return blocks
+
+@app.route('/')
+def hello():
+    text = 'Hello World'
+    return text
+
+
+@app.route('/api/block_models/', methods=['GET'])
+def block_models():
+    directory = os.getcwd()
+    names = []
+
+    for filename in os.listdir(directory):
+        name_extension = []
+        if filename.endswith(".csv"):
+            names.append({ 'name': filename.split("_blocks")[0] })
+    names_output = {"block_models": names}
+    return json.dumps(names_output)
+
+
+@app.route('/api/block_models/<name>/blocks/')
+def loaded_blocks(name):
+    out = show_blocks(name)
+    return json.dumps({"block_model": {"blocks": out}})
 
 
 @app.route('/api/block_models/<name>/blocks/<index>/')
-def block_info(name, index):
-    filename = name + "_blocks_reblock.csv"
-
-    if not os.path.exists(filename):
-        filename = name + "_blocks.csv"
-
-    with open(filename, 'r') as csv_file:
-        lines = csv_file.readlines()
-        offset = 3 + int(lines[3])
-        count = 0
-        block = lines[int(index)].strip().split(",")
-        block_out = {"block": {"x": block[1], "y": block[3], "z": block[5]}}
-        return json.dumps(block_out)
+def index_block(name, index):
+    model = show_blocks(name)
+    block = model[index]
+    return json.dumps({"block": block})
 
 
 if __name__ == "__main__":
