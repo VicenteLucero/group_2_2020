@@ -55,7 +55,7 @@ def show_blocks(name):
         return json.dumps(blocks_output)
 
 
-@app.route('/api/block_models/<name>/blocks/<index>')
+@app.route('/api/block_models/<name>/blocks/<index>/')
 def block_info(name, index):
     filename = name + "_blocks_reblock.csv"
 
