@@ -66,7 +66,7 @@ def block_info(name, index):
         lines = csv_file.readlines()
         offset = 3 + int(lines[3])
         count = 0
-        block = lines[index].strip().split(",")
+        block = lines[int(index)].strip().split(",")
         block_out = {"block": {"x": block[1], "y": block[2], "z": block[3], "mass": block[4]*1000}}
         return json.dumps(block_out)
 
