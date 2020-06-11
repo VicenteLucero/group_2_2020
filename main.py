@@ -67,7 +67,7 @@ def block_info(name, index):
         offset = 3 + int(lines[3])
         count = 0
         block = lines[int(index)].strip().split(",")
-        block_out = {"block": {"x": block[2], "y": block[4], "z": block[6]}}
+        block_out = {"block": {"x": block[1], "y": block[3], "z": block[5]}}
         return json.dumps(block_out)
 
 
