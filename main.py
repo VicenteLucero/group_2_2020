@@ -9,6 +9,10 @@ import csv
 
 app = Flask(__name__)
 CORS(app)
+@app.route('/')
+def hello():
+    text = 'Hello World'
+    return text
 
 
 @app.route('/api/block_models/', methods=['GET'])
@@ -20,8 +24,9 @@ def block_models():
         name_extension = []
         if filename.endswith(".csv"):
             names.append({ 'name': filename.split("_blocks")[0] })
+    names_output = {"block_models": names}
+    return json.dumps(names_output)
 
-    return json.dumps(names)
 
 @app.route('/api/block_models/<name>/blocks/')
 def show_blocks(name):
@@ -45,10 +50,25 @@ def show_blocks(name):
                 current_block = lines[line].strip().split(",")
                 for i in range(len(columns)):
                     block[str(columns[i])] = current_block[i]
-
                 blocks.append(block)
-
+        blocks_output = {"block_model": {"blocks": blocks}}
         return json.dumps(blocks)
+
+
+@app.route('/api/block_models/<name>/blocks/<index>')
+def block_info(name, index):
+    filename = name + "_blocks_reblock.csv"
+
+    if not os.path.exists(filename):
+        filename = name + "_blocks.csv"
+
+    with open(filename, 'r') as csv_file:
+        lines = csv_file.readlines()
+        offset = 3 + int(lines[3])
+        count = 0
+        block = lines[index].strip().split(",")
+        block_out = {"block": {"x": block[1], "y": block[2], "z": block[3], "mass": block[4]*1000}}
+        return json.dumps(block_out)
 
 
 if __name__ == "__main__":
